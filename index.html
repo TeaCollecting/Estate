@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="si"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><link rel="icon" type="image/svg+xml" href="icon.svg"><link rel="apple-touch-icon" href="icon.svg"><meta name="theme-color" content="#2e7d32">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700&family=Noto+Serif+Sinhala:wght@400;600;700&family=Gemunu+Libre:wght@400;600;700&family=Yaldevi:wght@400;600;700&display=swap" rel="stylesheet">
+<script>try{var d=document.documentElement,t=localStorage.getItem('th'),f=localStorage.getItem('ff');t&&t!='auto'&&d.setAttribute('data-th',t);f&&d.style.setProperty('--ff',"'"+f+"'")}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>වතු වැටුප් පද්ධතිය</title>
 <style>
-:root{--bg:#f4f7f2;--card:#fff;--tx:#1b2a1b;--mut:#5b6b5b;--g:#2e7d32;--hd:#1f6b4a;--bd:#cfdccf;--inp:#fff}
-@media (prefers-color-scheme:dark){:root{--bg:#121712;--card:#1b231b;--tx:#e6efe6;--mut:#9db09d;--g:#66bb6a;--hd:#1d5c40;--bd:#2f3f2f;--inp:#222c22}}
+:root{--bg:#f4f7f2;--card:#fff;--tx:#1b2a1b;--mut:#5b6b5b;--g:#2e7d32;--hd:#1f6b4a;--bd:#cfdccf;--inp:#fff;--soft:#e6f2e6;--ac:#2e7d32;--ff:'Noto Sans Sinhala'}
+[data-th=ocean]{--bg:#eef5fa;--tx:#10222e;--mut:#566a78;--g:#0277bd;--hd:#01579b;--bd:#c5d8e6;--soft:#e0eef8;--ac:#0277bd}
+[data-th=tea]{--bg:#faf4ea;--tx:#2b2113;--mut:#6f5f48;--g:#b45309;--hd:#8a3d06;--bd:#e6d5bb;--soft:#fbebd0;--ac:#a14a07}
+[data-th=plum]{--bg:#f6f1f8;--tx:#24122c;--mut:#6a5a72;--g:#7b1fa2;--hd:#5a1478;--bd:#dac8e2;--soft:#efe1f5;--ac:#7b1fa2}
+[data-th=dark]{--bg:#121712;--card:#1b231b;--tx:#e6efe6;--mut:#9db09d;--g:#3f9a44;--hd:#1d5c40;--bd:#2f3f2f;--inp:#222c22;--soft:#243024;--ac:#81c784}
+@media (prefers-color-scheme:dark){:root:not([data-th]){--bg:#121712;--card:#1b231b;--tx:#e6efe6;--mut:#9db09d;--g:#3f9a44;--hd:#1d5c40;--bd:#2f3f2f;--inp:#222c22;--soft:#243024;--ac:#81c784}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.4 system-ui,"Iskoola Pota","Noto Sans Sinhala",sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 var(--ff),system-ui,"Iskoola Pota","Noto Sans Sinhala",sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
 header{background:var(--g);color:#fff;padding:10px 12px;font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:center}
 header button{background:#0003;padding:4px 10px}
 .bar{display:flex;flex-wrap:wrap;gap:8px;padding:10px;align-items:center}
@@ -40,19 +47,57 @@ tfoot td{font-weight:700;background:var(--bg)}
 .hide{display:none!important}
 .rs .bar,.rs .tabs,.rs #adm,.rw .bar,.rw .tabs,.rw #adm{display:none}
 @media print{body>*:not(#modal){display:none!important}#modal{position:static;background:none;display:block!important}#modal button{display:none}}
+
+body{padding:0 0 calc(76px + env(safe-area-inset-bottom,0px))}
+header{position:sticky;top:0;z-index:20;gap:8px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+.brand{display:flex;align-items:center;gap:8px;min-width:0}.brand span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brand img{width:32px;height:32px;border-radius:8px;object-fit:contain;background:#fff;padding:2px;flex:none}
+.hr{display:flex;align-items:center;gap:6px;flex:none}#sy{font-size:11px;font-weight:400;opacity:.9}
+button{transition:transform .1s,filter .15s}button:hover{filter:brightness(1.08)}button:active{transform:scale(.96)}
+button:focus-visible,input:focus-visible,select:focus-visible,.wc:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.card{border-radius:14px;box-shadow:0 1px 2px #0001}
+.tabs{padding:4px 10px 8px;overflow-x:auto;flex-wrap:nowrap}
+.tabs button{display:flex;align-items:center;gap:6px;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:999px;padding:8px 14px;white-space:nowrap}
+.tabs button.on{background:var(--g);color:#fff;border-color:var(--g)}
+.tabs svg{width:20px;height:20px;flex:none}
+@media(max-width:700px){.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--card);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));gap:2px;justify-content:space-around;overflow:visible}
+.tabs button{flex:1;flex-direction:column;gap:2px;border:0;border-radius:12px;padding:6px 2px;font-size:11px;background:none}.tabs button.on{background:var(--soft);color:var(--ac)}}
+tbody tr:hover td{background:var(--soft)}.fl{width:100%;margin:6px 0 8px;padding:10px}.ok{color:var(--ac)}
+.lgl{display:block;margin:0 auto 8px;max-height:72px;max-width:160px;object-fit:contain}
+.cob{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}.lgp{width:84px;height:84px;border:2px dashed var(--bd);border-radius:14px;display:grid;place-items:center;color:var(--mut);overflow:hidden}.lgp img{width:100%;height:100%;object-fit:contain}
+#modal{z-index:40}.ov{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;padding:14px;z-index:50}.ov.on{display:flex}
+.box{background:var(--card);color:var(--tx);border-radius:16px;padding:16px;width:100%;max-width:380px;max-height:90vh;overflow:auto}
+.box h3{margin:0 0 8px}.box label{display:block;font-size:12px;color:var(--mut);margin:10px 0 4px}.box input{width:100%;padding:10px}
+.da{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}.dg{background:#d32f2f}
+.sw{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.swb,.fcb{background:var(--inp);color:var(--tx);border:2px solid var(--bd);border-radius:12px;padding:10px;display:flex;align-items:center;gap:8px;text-align:left}
+.swb i{width:18px;height:18px;border-radius:50%;flex:none}.fcb{flex-direction:column;align-items:flex-start;width:100%;margin-bottom:6px;gap:0}.fcb small{color:var(--mut)}
+.swb.on,.fcb.on{border-color:var(--g)}
+#ts{position:fixed;left:50%;bottom:90px;transform:translate(-50%,16px);background:#222;color:#fff;padding:10px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90%}#ts.on{opacity:1;transform:translate(-50%,0)}
+.dnav{display:flex;gap:6px;align-items:center;margin:8px 0}.dnav input{flex:1;padding:8px}.dnav button{padding:8px 14px;font-size:16px}
+.dsum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}.dsum div{background:var(--soft);border-radius:12px;padding:8px 10px}.dsum b{display:block;font-size:17px;color:var(--ac)}.dsum span{font-size:11px;color:var(--mut)}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+.wc{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px;cursor:pointer;display:grid;grid-template-columns:auto 1fr;gap:0 10px;align-items:center}
+.wc .av{grid-row:span 2;width:40px;height:40px;border-radius:50%;background:var(--soft);color:var(--ac);display:grid;place-items:center;font-weight:700}
+.wc .wn{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.wc .wk{font-size:12px;color:var(--mut)}
+.wc.dn{border-color:var(--g)}.wc.dn .av{background:var(--g);color:#fff}.wc.dn .wk{color:var(--ac);font-weight:700}.wc.sel{outline:3px solid var(--g)}
+.kg3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.kg3 label{font-size:12px;color:var(--mut);display:block}.kg3 input{width:100%;padding:12px 4px;font-size:18px;text-align:center}
+.tot{display:flex;justify-content:space-between;align-items:baseline;background:var(--soft);border-radius:12px;padding:10px 12px;margin:10px 0 6px}.tot b{font-size:22px;color:var(--ac)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style></head><body>
-<header><span>වතු වැටුප් පද්ධතිය</span><small id="sy"></small><button id="lo" class="hide" onclick="logout()">පිටවන්න</button></header>
+<header><span class="brand"><img id="lg" class="hide" alt=""><span id="bt">වතු වැටුප් පද්ධතිය</span></span><span class="hr"><small id="sy"></small><button id="tb" onclick="thm()" aria-label="පෙනුම">🎨</button><button id="lo" class="hide" onclick="logout()">පිටවන්න</button></span></header>
 <div id="login" class="card" style="max-width:360px;margin:20px auto;padding:16px">
-<h3>පිවිසුම</h3>
+<img id="ll" class="lgl hide" alt=""><h3>පිවිසුම</h3>
 <p><input id="em" placeholder="Email හෝ සේවක අංකය" style="width:100%"></p>
 <p><input id="pw" type="password" placeholder="මුරපදය / PIN" style="width:100%"></p>
 <button onclick="login()">පිවිසෙන්න</button><p id="le" class="neg"></p></div>
 <div id="app" class="hide">
 <div class="bar"><select id="yr"></select><select id="mo"></select><button class="o" onclick="addW()">+ සේවකයෙකු</button><button class="o" onclick="window.print()">මුද්‍රණය</button></div>
-<div class="tabs"><button id="tP" onclick="tab('P')">ස්ථිර සේවක</button><button id="tC" onclick="tab('C')">අනියම් සේවක</button><button id="tV" onclick="tab('V')">දෛනික කිලෝ</button><button id="tR" onclick="tab('R')">වාර්තා</button><button id="tS" onclick="tab('S')">සැකසුම්</button></div>
+<div class="tabs" id="tabs"></div>
 <div class="card" id="adm"><div id="main" class="w"></div></div>
 <div id="sv"></div><div id="wk"></div>
 </div>
+<div id="dlg" class="ov" onclick="if(event.target==this)dclose()"><div class="box" id="dbx"></div></div><div id="ts"></div>
 <style id="pg"></style><div id="modal" onclick="if(event.target==this)this.style.display='none'"><div><div class="slip" id="slipc"></div><p style="text-align:center"><button onclick="window.print()">මුද්‍රණය</button> <button class="o" onclick="document.getElementById('modal').style.display='none'">වසන්න</button></p></div></div>
 
 <script type="module">
@@ -88,15 +133,42 @@ const f=n=>Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFrac
 const rec=no=>M[no]||{};
 function demoLoad(){M={};for(const id in DB.entries){const e=DB.entries[id];if(e.key==mk()&&(ROLE!='worker'||e.no==WNO))M[e.no]=e}paint()}
 const wr=(no,o)=>{if(DEMO){const id=mk()+'_'+no;DB.entries[id]=dmerge(DB.entries[id]||{key:mk(),no:+no},o);dsave();demoLoad();return Promise.resolve()}return setDoc(doc(db,'entries',mk()+'_'+no),{key:mk(),no:+no,...o},{merge:true})};
-const saveSet=()=>{if(DEMO){DB.settings={set:S.set,w:S.w};dsave();paint();return}return setDoc(doc(db,'settings','main'),{set:S.set,w:S.w})};
+const saveSet=()=>{if(DEMO){DB.settings={set:S.set,w:S.w,logo:S.logo||'',co:S.co||''};dsave();paint();return}return setDoc(doc(db,'settings','main'),{set:S.set,w:S.w,logo:S.logo||'',co:S.co||''})};
 function demoStart(u){ROLE=u.role;WNO=u.wno;$('login').classList.add('hide');$('app').classList.remove('hide');$('lo').classList.remove('hide');document.body.className=ROLE=='admin'?'':ROLE=='supervisor'?'rs':'rw';
  if(!DB.settings){S.w=SEED;DB.settings={set:S.set,w:S.w};const k=mk(),E=DB.entries;
   [[145,{d:21,a:10000}],[165,{d:15,a:6000}],[196,{d:19,a:7500}],[140,{a:5500,dk:{1:120,2:115,3:117},dl:{1:[40,40,40],2:[38,39,38],3:[39,39,39]}}],[162,{a:4000,dk:{1:130,2:125}}]].forEach(a=>E[k+'_'+a[0]]={key:k,no:a[0],...a[1]});dsave()}
- else{S.set=DB.settings.set;S.w=DB.settings.w}
+ else{S.set=DB.settings.set;S.w=DB.settings.w;S.logo=DB.settings.logo||'';S.co=DB.settings.co||''}
  subE()}
 const ksum=r=>r.dk?Object.values(r.dk).reduce((a,b)=>a+(+b||0),0):0;
 function calcP(r){const s=S.set,d=+r.d||0,a=+r.a||0,fa=+r.fa||0,basic=d*s.rate,da=d*s.dayAllow,ma=d>=s.limit?d*s.mAllow:0,tot=basic+da+ma,epf=Math.round(basic*s.epf)/100,ded=a+fa+epf;return{d,basic,da,ma,tot,a,fa,epf,ded,net:tot-ded}}
 function calcC(r){const k=ksum(r)||+r.k||0,a=+r.a||0,fa=+r.fa||0,tot=k*S.set.kg,ded=a+fa;return{k,tot,a,fa,ded,net:tot-ded}}
+
+/* ---- ui helpers ---- */
+let FQ='',BL='';
+const TB=[['P','ස්ථිර','M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8','ස්ථිර සේවක'],['C','අනියම්','M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0','අනියම් සේවක'],['V','කිලෝ','M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10zM2 21c0-3 1.9-5.5 5-7 3-1.4 6-2 9-2','දෛනික කිලෝ'],['R','වාර්තා','M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h8','වාර්තා'],['S','සැකසුම්','M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1','සැකසුම්']];
+const TH=[['auto','ස්වයංක්‍රීය','#2e7d32'],['ocean','සාගර නිල්','#0277bd'],['tea','තේ රන්වන්','#b45309'],['plum','දම්','#7b1fa2'],['dark','රාත්‍රී','#1b231b']];
+const FN=[['Noto Sans Sinhala','සරල'],['Gemunu Libre','ගෙමුණු'],['Yaldevi','යල්දෙවි'],['Noto Serif Sinhala','සර්ෆ්']];
+function toast(m){const e=$('ts');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2600)}
+const dclose=()=>$('dlg').classList.remove('on');
+function ask(t,fs,cb){$('dbx').innerHTML=`<h3>${t}</h3>`+fs.map((a,i)=>`<label>${a[0]}</label><input id=dq${i} type=${a[1]} ${a[2]}>`).join('')+`<div class=da><button class=o onclick=dclose()>අවලංගු</button><button id=dok>සුරකින්න</button></div>`;$('dlg').classList.add('on');$('dok').onclick=()=>{if(cb(fs.map((_,i)=>$('dq'+i).value.trim()))!==false)dclose()};setTimeout(()=>$('dq0').focus(),50)}
+function cf(t,cb){$('dbx').innerHTML=`<h3>${t}</h3><div class=da><button class=o onclick=dclose()>නැහැ</button><button class=dg id=dok>ඔව්, මකන්න</button></div>`;$('dlg').classList.add('on');$('dok').onclick=()=>{dclose();cb()}}
+function flt(v){FQ=v;const q=v.trim().toLowerCase();document.querySelectorAll('#main tbody tr[data-q]').forEach(r=>r.classList.toggle('hide',!!q&&!r.dataset.q.toLowerCase().includes(q)))}
+function applyth(){const t=localStorage.getItem('th')||'auto',d=document.documentElement;t=='auto'?d.removeAttribute('data-th'):d.setAttribute('data-th',t);d.style.setProperty('--ff',"'"+(localStorage.getItem('ff')||FN[0][0])+"'");document.querySelector('meta[name=theme-color]').content=getComputedStyle(d).getPropertyValue('--g').trim()||'#2e7d32'}
+function thm(){const t=localStorage.getItem('th')||'auto',f=localStorage.getItem('ff')||FN[0][0];
+ $('dbx').innerHTML=`<h3>පෙනුම</h3><label>තේමාව</label><div class=sw>${TH.map(a=>`<button class="swb${a[0]==t?' on':''}" onclick="setth('${a[0]}')"><i style="background:${a[2]}"></i>${a[1]}</button>`).join('')}</div><label>අකුරු වර්ගය</label>${FN.map(a=>`<button class="fcb${a[0]==f?' on':''}" style="font-family:'${a[0]}'" onclick="setff('${a[0]}')">${a[1]}<small>සුභ දවසක් 1,250.00</small></button>`).join('')}<div class=da><button onclick=dclose()>හරි</button></div>`;$('dlg').classList.add('on')}
+function setth(t){localStorage.setItem('th',t);applyth();thm()}
+function setff(f){localStorage.setItem('ff',f);applyth();thm()}
+function brand(){const k=(S.logo||'')+'|'+(S.co||'');if(k==BL)return;BL=k;try{localStorage.setItem('lg',S.logo||'');localStorage.setItem('co',S.co||'')}catch(e){}
+ ['lg','ll'].forEach(i=>{const e=$(i);S.logo?e.src=S.logo:e.removeAttribute('src');e.classList.toggle('hide',!S.logo)});
+ $('bt').textContent=S.co||'වතු වැටුප් පද්ධතිය';document.title=S.co||'වතු වැටුප් පද්ධතිය';
+ if(S.logo)document.querySelectorAll('link[rel=icon],link[rel=apple-touch-icon]').forEach(l=>{l.href=S.logo;l.type='image/png'})}
+const hdr=()=>(S.logo||S.co)?`<div style="text-align:center;margin-bottom:6px">${S.logo?`<img src="${S.logo}" style="height:46px;max-width:140px;object-fit:contain">`:''}${S.co?`<div style="font-weight:700">${S.co}</div>`:''}</div>`:'';
+const cohtml=()=>`<h4 style="margin:4px 0 8px">ආයතනය</h4><div class=cob><div class=lgp>${S.logo?`<img src="${S.logo}" alt="">`:'Logo'}</div><div class=set style="flex:1"><div><label>ආයතනයේ නම</label><input value="${(S.co||'').replace(/"/g,'&quot;')}" onchange="setco(this.value)"></div><div><label>ලාංඡනය (logo) උඩුගත කරන්න</label><input type=file accept="image/*" onchange="uplogo(this)"></div>${S.logo?'<button class=o onclick="rmlogo()">ඉවත් කරන්න</button>':''}</div></div>`;
+function setco(v){S.co=v.trim();saveSet();brand();toast('✓ සුරැකිණි')}
+function rmlogo(){S.logo='';saveSet();brand();render()}
+function uplogo(i){const fl=i.files[0];if(!fl)return;const im=new Image(),u=URL.createObjectURL(fl);
+ im.onload=()=>{const k=Math.min(1,256/Math.max(im.width||256,im.height||256)),c=document.createElement('canvas');c.width=Math.round((im.width||256)*k);c.height=Math.round((im.height||256)*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);S.logo=c.toDataURL('image/png');URL.revokeObjectURL(u);saveSet();brand();render();toast('✓ ලාංඡනය සුරැකිණි')};
+ im.onerror=()=>toast('පින්තූරය කියවිය නොහැක');im.src=u}
 
 /* ---- auth ---- */
 function login(){let e=$('em').value.trim();if(e&&!e.includes('@'))e+='@estate.local';
@@ -112,7 +184,7 @@ if(!DEMO)onAuthStateChanged(auth,async u=>{
  $('login').classList.add('hide');$('app').classList.remove('hide');$('lo').classList.remove('hide');
  document.body.className=ROLE=='admin'?'':ROLE=='supervisor'?'rs':'rw';
  unS=onSnapshot(doc(db,'settings','main'),sn=>{
-  if(sn.exists()){S.set=sn.data().set;S.w=sn.data().w}else{S.w=[]}
+  if(sn.exists()){const d=sn.data();S.set=d.set;S.w=d.w;S.logo=d.logo||'';S.co=d.co||''}else{S.w=[]}
   paint()});
  subE()});
 let pend=false;
@@ -122,20 +194,20 @@ function subE(){if(!ROLE)return;if(DEMO){demoLoad();return}if(unE)unE();
  let q=query(collection(db,'entries'),where('key','==',mk()));
  if(ROLE=='worker')q=query(collection(db,'entries'),where('key','==',mk()),where('no','==',+WNO));
  unE=onSnapshot(q,{includeMetadataChanges:true},sn=>{M={};sn.forEach(d=>M[d.data().no]=d.data());pend=sn.metadata.hasPendingWrites;stat();paint()})}
-function paint(){
+function paint(){brand();
  if(ROLE=='admin'){if(T=='V'){svres()}else if(!(document.activeElement&&document.activeElement.tagName=='INPUT'&&document.activeElement.closest('#main')))render()}
  else if(ROLE=='supervisor'){if(!$('sq'))svrender();else svres()}
  else wrender()}
 
 /* ---- admin ---- */
-function tab(t){T=t;render()}
+function tab(t){T=t;FQ='';render()}
 function up(no,k,v){wr(no,{[k]:v===''?0:parseFloat(v)})}
-function addW(){if(T=='S'||T=='V'&&0)return;const no=prompt('අංකය');if(!no)return;const t=T=='P'?'P':'C';S.w.push({no:+no,name:prompt('නම')||'',t});saveSet()}
-function del(no){if(confirm('මකන්නද?')){S.w=S.w.filter(x=>x.no!=no);saveSet()}}
+function addW(){if(T=='S')return;const t=T=='P'?'P':'C';ask((t=='P'?'ස්ථිර':'අනියම්')+' සේවකයෙකු එක් කරන්න',[['සේවක අංකය','number','inputmode=numeric'],['නම','text','']],v=>{if(!v[0]){toast('සේවක අංකය ඇතුළත් කරන්න');return false}if(S.w.some(x=>x.no==+v[0])){toast('මෙම අංකය දැනටමත් ඇත');return false}S.w.push({no:+v[0],name:v[1],t});saveSet();toast('✓ සේවකයා එක් කළා')})}
+function del(no){cf('මෙම සේවකයා මකන්නද?',()=>{S.w=S.w.filter(x=>x.no!=no);saveSet();toast('මකා දැමුවා')})}
 function nm(no,v){S.w.find(x=>x.no==no).name=v;saveSet()}
 function setv(k,v){S.set[k]=+v;saveSet()}
 const inp=(no,k,v)=>`<input type=number step=any value="${v||''}" onchange="up(${no},'${k}',this.value)">`;
-async function createAcct(email,pw,data){if(DEMO){alert('Demo mode එකේ ගිණුම් සාදන්න බැහැ');return}try{const sa=initializeApp(firebaseConfig,'sec'+Date.now()),sau=getAuth(sa),c=await createUserWithEmailAndPassword(sau,email,pw);await setDoc(doc(db,'staff',c.user.uid),data);await signOut(sau);alert('ගිණුම සාදන ලදී')}catch(e){alert(e.message)}}
+async function createAcct(email,pw,data){if(DEMO){toast('Demo mode එකේ ගිණුම් සාදන්න බැහැ');return}try{const sa=initializeApp(firebaseConfig,'sec'+Date.now()),sau=getAuth(sa),c=await createUserWithEmailAndPassword(sau,email,pw);await setDoc(doc(db,'staff',c.user.uid),data);await signOut(sau);toast('ගිණුම සාදන ලදී')}catch(e){toast(e.message)}}
 function mkSup(){createAcct($('se').value.trim(),$('sp').value,{role:'supervisor'})}
 function mkWk(no){createAcct(no+'@estate.local',$('pin'+no).value,{role:'worker',wno:no})}
 function render(){
@@ -144,20 +216,20 @@ function render(){
  if(T=='V'){svrender();return}
  if(T=='R'){el.innerHTML=`<h4 style="margin:4px 0">${yr.value} ${MN[mo.value]} මස වාර්තා</h4><p><button onclick="rep('P')">ස්ථිර සේවක වැටුප් ගෙවීම් ලේඛනය</button></p><p><button onclick="rep('C')">අනියම් සේවක වැටුප් ගෙවීම් ලේඛනය</button></p><p><button onclick="rep('A')">සියලු සේවකයින්ගේ වැටුප් විස්තර</button></p>`;return}
  if(T=='S'){const s=S.set,L=[['rate','දෛනික වැටුප (රු.)'],['dayAllow','දිනකට දීමනාව'],['mAllow','මාසික දීමනාව (දිනකට)'],['limit','දින සීමාව'],['epf','සේ.අ.අ %'],['kg','කිලෝවකට මුදල (රු.)']];
-  el.innerHTML='<div class=set>'+L.map(a=>`<div><label>${a[1]}</label><input type=number step=any value="${s[a[0]]}" onchange="setv('${a[0]}',this.value)"></div>`).join('')+'</div>'
+  el.innerHTML=cohtml()+'<h4>වැටුප් සැකසුම්</h4><div class=set>'+L.map(a=>`<div><label>${a[1]}</label><input type=number step=any value="${s[a[0]]}" onchange="setv('${a[0]}',this.value)"></div>`).join('')+'</div>'
   +'<h4>අධීක්ෂක ගිණුමක් සාදන්න</h4><div class=set><input id=se placeholder="Email"><input id=sp type=password placeholder="මුරපදය (අකුරු 6+)"><button onclick="mkSup()">සාදන්න</button></div>'
   +'<h4>සේවක ගිණුම් (අංකය + PIN අංක 6ක්)</h4><div class=set>'+S.w.filter(x=>x.t=='C').map(x=>`<div><label>${x.no} ${x.name}</label><input id=pin${x.no} placeholder="PIN"><button onclick="mkWk(${x.no})">සාදන්න</button></div>`).join('')+'</div>';return}
  const ws=S.w.filter(x=>x.t==T).sort((a,b)=>a.no-b.no);let h,tot={};const add=(k,v)=>tot[k]=(tot[k]||0)+v;
  const nmI=x=>`<input class=nm value="${x.name}" onchange="nm(${x.no},this.value)">`,act=x=>`<button class=o onclick="slip(${x.no})">🧾</button> <button class=o onclick="del(${x.no})">✕</button>`;
  if(T=='P'){h='<table><thead><tr><th>අංකය<th>නම<th>දින<th>මූලික<th>මාසික දීමනා<th>මුළු වැටුප<th>අත්තිකාරම්<th>උත්සව අත්.<th>'+S.set.epf+'%<th>මුළු අඩු<th>ශුද්ධ වැටුප<th></tr></thead><tbody>';
   ws.forEach(x=>{const r=rec(x.no),c=calcP(r);['basic','ma','tot','a','fa','epf','ded','net'].forEach(k=>add(k,c[k]));
-  h+=`<tr><td class=n>${x.no}<td class=n>${nmI(x)}<td>${inp(x.no,'d',r.d)}<td>${f(c.basic)}<td>${f(c.ma)}<td>${f(c.tot)}<td>${inp(x.no,'a',r.a)}<td>${inp(x.no,'fa',r.fa)}<td>${f(c.epf)}<td>${f(c.ded)}<td class="${c.net<0?'neg':''}"><b>${f(c.net)}</b><td>${act(x)}</tr>`});
+  h+=`<tr data-q="${x.no} ${x.name}"><td class=n>${x.no}<td class=n>${nmI(x)}<td>${inp(x.no,'d',r.d)}<td>${f(c.basic)}<td>${f(c.ma)}<td>${f(c.tot)}<td>${inp(x.no,'a',r.a)}<td>${inp(x.no,'fa',r.fa)}<td>${f(c.epf)}<td>${f(c.ded)}<td class="${c.net<0?'neg':''}"><b>${f(c.net)}</b><td>${act(x)}</tr>`});
   h+=`</tbody><tfoot><tr><td colspan=3>එකතුව<td>${f(tot.basic||0)}<td>${f(tot.ma||0)}<td>${f(tot.tot||0)}<td>${f(tot.a||0)}<td>${f(tot.fa||0)}<td>${f(tot.epf||0)}<td>${f(tot.ded||0)}<td>${f(tot.net||0)}<td></tr></tfoot></table>`}
  else{h='<table><thead><tr><th>අංකය<th>නම<th>කිලෝ ගණන<th>මුළු වැටුප<th>අත්තිකාරම්<th>උත්සව අත්.<th>මුළු අඩුකිරීම්<th>ශුද්ධ වැටුප<th></tr></thead><tbody>';
   ws.forEach(x=>{const r=rec(x.no),c=calcC(r);['k','tot','a','fa','ded','net'].forEach(k=>add(k,c[k]));
-  h+=`<tr><td class=n>${x.no}<td class=n>${nmI(x)}<td>${ksum(r)?'<b>'+f(ksum(r))+'</b>':inp(x.no,'k',r.k)}<td>${f(c.tot)}<td>${inp(x.no,'a',r.a)}<td>${inp(x.no,'fa',r.fa)}<td>${f(c.ded)}<td class="${c.net<0?'neg':''}"><b>${f(c.net)}</b><td>${act(x)}</tr>`});
+  h+=`<tr data-q="${x.no} ${x.name}"><td class=n>${x.no}<td class=n>${nmI(x)}<td>${ksum(r)?'<b>'+f(ksum(r))+'</b>':inp(x.no,'k',r.k)}<td>${f(c.tot)}<td>${inp(x.no,'a',r.a)}<td>${inp(x.no,'fa',r.fa)}<td>${f(c.ded)}<td class="${c.net<0?'neg':''}"><b>${f(c.net)}</b><td>${act(x)}</tr>`});
   h+=`</tbody><tfoot><tr><td colspan=2>එකතුව<td>${f(tot.k||0)}<td>${f(tot.tot||0)}<td>${f(tot.a||0)}<td>${f(tot.fa||0)}<td>${f(tot.ded||0)}<td>${f(tot.net||0)}<td></tr></tfoot></table>`}
- el.innerHTML='<h4 style="margin:4px 0">'+yr.value+' '+MN[mo.value]+' මස '+(T=='P'?'ස්ථිර':'අනියම්')+' සේවක වැටුප් ගෙවීම් ලේඛනය</h4>'+h}
+ el.innerHTML='<h4 style="margin:4px 0">'+yr.value+' '+MN[mo.value]+' මස '+(T=='P'?'ස්ථිර':'අනියම්')+' සේවක වැටුප් ගෙවීම් ලේඛනය</h4><input class=fl placeholder="🔍 සේවක අංකය / නම සොයන්න" value="'+FQ.replace(/"/g,'')+'" oninput="flt(this.value)">'+h;flt(FQ)}
 function slip(no){const x=S.w.find(a=>a.no==no),r=rec(no),R=(a,b,bold)=>`<div class=r><span>${a}</span><b style="font-weight:${bold?700:400}">${b}</b></div>`;let h=`<h3>වැටුප් විස්තරය</h3>${R('අංකය',no)}${R('නම',x.name)}${R('මාසය',yr.value+' '+MN[mo.value])}<hr>`;
  if(x.t=='P'){const c=calcP(r);h+=R('දින ගණන',c.d)+R('මූලික වැටුප',f(c.basic))+R('දිනකට ගෙවන දීමනාව',f(c.da))+R('මාසික දීමනා එකතුව',f(c.ma))+R('මුළු වැටුප',f(c.tot),1)+'<hr>'+R('අත්තිකාරම්',f(c.a))+R('උත්සව අත්තිකාරම්',f(c.fa))+R('සේ.අ.අ '+S.set.epf+'%',f(c.epf))+R('අඩු කිරීම් එකතුව',f(c.ded),1)+'<hr>'+R('ශුද්ධ වැටුප',f(c.net),1)}
  else{const c=calcC(r);h+=R('කිලෝ ගණන',c.k)+R('මුළු වැටුප',f(c.tot),1)+'<hr>'+R('අත්තිකාරම්',f(c.a))+R('උත්සව අත්තිකාරම්',f(c.fa))+R('අඩු කිරීම් එකතුව',f(c.ded),1)+'<hr>'+R('ශුද්ධ වැටුප',f(c.net),1)}
@@ -165,7 +237,7 @@ function slip(no){const x=S.w.find(a=>a.no==no),r=rec(no),R=(a,b,bold)=>`<div cl
 
 function slipBody(no){const x=S.w.find(a=>a.no==no),r=rec(no),P=x.t=='P',c=P?calcP(r):calcC(r);
  const R=(a,b,t)=>`<tr><td>${a}<td style='text-align:right;${t?"border-top:1px solid #000;border-bottom:3px double #000;font-weight:700":""}'>${b}</tr>`,H=a=>`<tr><td colspan=2 style='padding-top:10px'><u>${a}</u></tr>`,fa=c.fa?f(c.fa):'-';
- let h=`<div class=ps><h3>වැටුප් විස්තරය</h3><div class=r><span>අංකය <b>${no}</b></span><span>${yr.value} ${MN[mo.value]}</span></div><div>නම <b>${x.name}</b></div><table class=pt>`;
+ let h=`<div class=ps>${hdr()}<h3>වැටුප් විස්තරය</h3><div class=r><span>අංකය <b>${no}</b></span><span>${yr.value} ${MN[mo.value]}</span></div><div>නම <b>${x.name}</b></div><table class=pt>`;
  if(P)h+=R('දින ගණන',c.d.toFixed(1))+R('මූලික වැටුප',f(c.basic))+R('දිනකට ගෙවන දීමනාව',f(c.da))+R('මාසික දීමනා එකතුව',f(c.ma))+R('මුළු වැටුප',f(c.tot),1)+H('අඩු කිරීම්')+R('අත්තිකාරම්',f(c.a))+R('උත්සව අත්තිකාරම්',fa)+R('සේ. අ. අ. '+S.set.epf+'%',f(c.epf))+R('අඩු කිරීම් එකතුව',f(c.ded),1)+H('තේ දළු')+R('ප්‍රමාණය','-')+R('මුදල','-')+R('ශුද්ධ වැටුප',f(c.net),1);
  else h+=R('කිලෝ ගණන',f(c.k))+R('මුළු වැටුප',f(c.tot),1)+H('අඩු කිරීම්')+R('අත්තිකාරම්',f(c.a))+R('උත්සව අත්තිකාරම්',fa)+R('අඩු කිරීම් එකතුව',f(c.ded),1)+R('ශුද්ධ වැටුප',f(c.net),1);
  return h+'</table></div>'}
@@ -178,29 +250,37 @@ function rep(t){const m=$('slipc');m.className='rep';$('modal').style.display='f
  const fmt=(i,v)=>P&&i==0?v.toFixed(1):(!P&&i==3&&!v)?'-':f(v),tot=[];
  const rows=ws.map(x=>{const r=rec(x.no),c=P?calcP(r):calcC(r),n=P?[c.d,c.basic,c.da,c.ma,c.tot,c.a,c.fa,c.epf,c.ded,c.net]:[c.k,c.tot,c.a,c.fa,c.ded,c.net];n.forEach((v,i)=>tot[i]=(tot[i]||0)+v);
   return `<tr><td>${x.no}<td style='text-align:left'>${x.name}${n.map((v,i)=>`<td>${fmt(i,v)}`).join('')}<td style='width:90px'></tr>`}).join('');
- m.innerHTML=`<h3>${yr.value} ${MN[mo.value]} මස<br>${P?'ස්ථිර':'අනියම්'} සේවක වැටුප් ගෙවීම් ලේඛනය</h3><table><thead><tr>${hd.map(h=>`<th>${h}`).join('')}</tr></thead><tbody>${rows}<tr style='font-weight:700'><td colspan=2>එකතුව${tot.map((v,i)=>`<td>${fmt(i,v)}`).join('')}<td></tr></tbody></table>`}
+ m.innerHTML=`${hdr()}<h3>${yr.value} ${MN[mo.value]} මස<br>${P?'ස්ථිර':'අනියම්'} සේවක වැටුප් ගෙවීම් ලේඛනය</h3><table><thead><tr>${hd.map(h=>`<th>${h}`).join('')}</tr></thead><tbody>${rows}<tr style='font-weight:700'><td colspan=2>එකතුව${tot.map((v,i)=>`<td>${fmt(i,v)}`).join('')}<td></tr></tbody></table>`}
 /* ---- supervisor (daily kg cards) ---- */
 function svdate(v){if(!v)return;DD=v;yr.value=v.slice(0,4);mo.value=+v.slice(5,7)-1;subE();svrender()}
-function svrender(){const el=ROLE=='admin'?$('main'):$('sv'),wrap=ROLE=='admin'?'':"style='max-width:460px;margin:10px auto'";
- el.innerHTML=`<div class=card ${wrap}><p><b>දෛනික කිලෝ සටහන</b> <input type=date value='${DD}' onchange='svdate(this.value)'></p><input id=sq placeholder='සේවක අංකය හෝ නමේ මුල් අකුරු...' oninput='svq(this.value)' value='${Q}' style='width:100%;padding:12px;font-size:16px'><div id=sres></div><div id=sent></div></div>`;svres();svent()}
-function svres(){const e=$('sres');if(!e)return;const ws=[...S.w].sort((a,b)=>a.no-b.no),d=+DD.slice(8),q=Q.trim();
+function svday(n){const t=new Date(DD+'T00:00');t.setDate(t.getDate()+n);svdate(t.getFullYear()+'-'+p2(t.getMonth()+1)+'-'+p2(t.getDate()))}
+function svrender(){const el=ROLE=='admin'?$('main'):$('sv'),wrap=ROLE=='admin'?'':"style='max-width:520px;margin:10px auto'";
+ el.innerHTML=`<div class=card ${wrap}><b>දෛනික කිලෝ සටහන</b><div class=dnav><button class=o onclick='svday(-1)' aria-label='පෙර දිනය'>‹</button><input type=date value='${DD}' onchange='svdate(this.value)'><button class=o onclick='svday(1)' aria-label='ඊළඟ දිනය'>›</button></div><div class=dsum id=dsum></div><input id=sq placeholder='🔍 සේවක අංකය හෝ නම...' oninput='svq(this.value)' value='${Q}' style='width:100%;padding:12px;font-size:16px'><div id=sent></div><div id=sres class=cg></div></div>`;svres();svent()}
+function svres(){const e=$('sres');if(!e)return;const ws=[...S.w].sort((a,b)=>a.no-b.no),d=+DD.slice(8),q=Q.trim(),dv=w=>+(rec(w.no).dk||{})[d]||0,n=ws.filter(w=>dv(w)>0).length;
+ $('dsum').innerHTML=`<div><b>${f(ws.reduce((a,w)=>a+dv(w),0))}</b><span>අද මුළු kg</span></div><div><b>${n}/${ws.length}</b><span>සටහන් කළා</span></div><div><b>${f(ws.reduce((a,w)=>a+ksum(rec(w.no)),0))}</b><span>මාසික kg</span></div>`;
  const l=q?ws.filter(w=>String(w.no).startsWith(q)||w.name.split(/\s+/).some(p=>p.startsWith(q))):ws;
- e.innerHTML=(q?'':'<small style="color:var(--mut)">සියලු සේවකයින් (✓ = අද සටහන් කළා)</small>')+(l.map(w=>{const v=(rec(w.no).dk||{})[d];return `<div class=card style='margin:6px 0;padding:12px;cursor:pointer;${w.no==SW?"border:2px solid var(--g)":""}' onclick='svpick(${w.no})'><b>${w.no}</b> ${w.name}<span style='float:right'>${v?'<span style="color:var(--g)">✓ '+f(v)+' kg</span>':'<span style="color:var(--mut)">—</span>'}</span></div>`}).join('')||(q?'<p>සේවකයෙකු හමු නොවීය</p>':''))}
+ e.innerHTML=l.map(w=>{const v=dv(w);return `<div class="wc${v?' dn':''}${w.no==SW?' sel':''}" role=button tabindex=0 onclick='svpick(${w.no})' onkeydown='if(event.key=="Enter")svpick(${w.no})'><span class=av>${w.no}</span><span class=wn>${w.name||'—'}</span><span class=wk>${v?'✓ '+f(v)+' kg':'තවම නැත'}</span></div>`}).join('')||(q?'<p>සේවකයෙකු හමු නොවීය</p>':'<p>සේවකයින් නැත. “+ සේවකයෙකු” ඔබා එක් කරන්න.</p>')}
 function svq(v){Q=v;SW=null;MSG='';svres();svent()}
-function svpick(n){SW=n;svres();svent();setTimeout(()=>{const k=[...document.querySelectorAll('.sk')],i=k.find(x=>x.value==='')||k[0];i&&i.focus()})}
-function svent(){const e=$('sent');if(!e)return;if(SW==null){e.innerHTML=MSG?`<p style='color:var(--g)'><b>${MSG}</b></p>`:'';return}
+function svpick(n){SW=n;svres();svent();setTimeout(()=>{const k=[...document.querySelectorAll('.sk')],i=k.find(x=>x.value==='')||k[0];i&&i.focus();$('sent').scrollIntoView({behavior:'smooth',block:'nearest'})})}
+function svcancel(){SW=null;svres();svent()}
+function svlive(){const k=[...document.querySelectorAll('.sk')],s=k.reduce((p,i)=>p+(parseFloat(i.value)||0),0),r=rec(SW),d=+DD.slice(8);$('lt').textContent=f(s);$('mt').textContent=f(ksum(r)-(+(r.dk||{})[d]||0)+s)}
+function svnext(i){const k=[...document.querySelectorAll('.sk')],n=k[k.indexOf(i)+1];n?n.focus():svsave()}
+function svent(){const e=$('sent');if(!e)return;if(SW==null){e.innerHTML=MSG?`<p class=ok><b>${MSG}</b></p>`:'';return}
  const x=S.w.find(a=>a.no==SW),r=rec(SW),d=+DD.slice(8),dl=(r.dl||{})[d]||[];
- e.innerHTML=`<div class=card style='margin:8px 0;padding:12px'><b>${x.no} - ${x.name}</b>${[0,1,2].map(i=>`<p>${i+1} වන වරට: <input type=number step=any inputmode=decimal class=sk value='${dl[i]??''}' style='width:120px;padding:10px;font-size:16px'> kg</p>`).join('')}<p>මාසික එකතුව: <b>${f(ksum(r))}</b> kg</p><button onclick='svsave()' style='padding:12px 20px'>සුරකින්න</button></div>`}
+ e.innerHTML=`<div class=card style='margin:10px 0;padding:12px;border:2px solid var(--g)'><b>${x.no} - ${x.name}</b><div class=kg3 style='margin-top:8px'>${[0,1,2].map(i=>`<div><label>${i+1} වන වර (kg)</label><input type=number step=any inputmode=decimal class=sk value='${dl[i]??''}' oninput='svlive()' onkeydown='if(event.key=="Enter")svnext(this)'></div>`).join('')}</div><div class=tot><span>අද එකතුව</span><b id=lt>0.00</b></div><small style='color:var(--mut)'>මාසික එකතුව (අද ඇතුළුව): <b id=mt></b> kg</small><div class=da><button class=o onclick='svcancel()'>අවලංගු</button><button onclick='svsave()' style='padding:12px 22px'>සුරකින්න</button></div></div>`;svlive()}
 async function svsave(){const x=S.w.find(a=>a.no==SW),d=+DD.slice(8),a=[...document.querySelectorAll('.sk')].map(i=>i.value===''?null:parseFloat(i.value)),s=a.reduce((p,q)=>p+(+q||0),0);
- try{wr(SW,{dl:{[d]:a},dk:{[d]:s}}).catch(e=>alert(e.code));MSG='✓ '+x.name+' සුරැකිණි ('+f(s)+' kg)'+(navigator.onLine?'':' • offline: සම්බන්ධ වූ විට යවයි')}catch(e){MSG='සුරැකීම අසාර්ථකයි: '+e.code}
- SW=null;Q='';const q=$('sq');q.value='';svres();svent();q.focus()}
+ try{wr(SW,{dl:{[d]:a},dk:{[d]:s}}).catch(e=>toast(e.code));MSG='✓ '+x.name+' සුරැකිණි ('+f(s)+' kg)'+(navigator.onLine?'':' • offline: සම්බන්ධ වූ විට යවයි')}catch(e){MSG='සුරැකීම අසාර්ථකයි: '+e.code}
+ navigator.vibrate&&navigator.vibrate(40);SW=null;Q='';const q=$('sq');q.value='';svres();svent();q.focus()}
 
 /* ---- worker (read-only) ---- */
 function wm(v){if(!v)return;yr.value=v.slice(0,4);mo.value=+v.slice(5,7)-1;subE()}
 function wrender(){const x=S.w.find(a=>a.no==WNO)||{name:'',no:WNO},r=rec(WNO),dk=r.dk||{},c=calcC(r),pm=yr.value+'-'+p2(+mo.value+1);
  $('wk').innerHTML=`<div class=card style='max-width:460px;margin:10px auto'><b>${x.name}</b> (අංකය ${WNO})<p>මාසය: <input type=month value='${pm}' onchange='wm(this.value)'></p><table style='min-width:0'><thead><tr><th>දිනය<th>කිලෝ</tr></thead><tbody>${Object.keys(dk).map(Number).filter(d=>dk[d]>0).sort((a,b)=>a-b).map(d=>`<tr><td class=n>${d}<td>${f(dk[d])}</tr>`).join('')}</tbody><tfoot><tr><td>එකතුව<td>${f(c.k)}</tr></tfoot></table><p>මුළු වැටුප: <b>${f(c.tot)}</b><br>අත්තිකාරම් සහ අඩු කිරීම්: ${f(c.ded)}<br>ශුද්ධ වැටුප: <b>${f(c.net)}</b></p></div>`}
 
+$('tabs').innerHTML=TB.map(a=>`<button id="t${a[0]}" onclick="tab('${a[0]}')" title="${a[3]}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${a[2]}"/></svg><span>${a[1]}</span></button>`).join('');
+S.logo=localStorage.getItem('lg')||'';S.co=localStorage.getItem('co')||'';brand();applyth();
+$('pw').onkeydown=$('em').onkeydown=e=>{if(e.key=='Enter')login()};$('dbx').onkeydown=e=>{if(e.key=='Enter'&&$('dok'))$('dok').click()};
 stat();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{login,logout,tab,up,addW,del,nm,setv,slip:slipx,rep,mkSup,mkWk,svdate,svq,svpick,svsave,wm});
+Object.assign(window,{login,logout,tab,up,addW,del,nm,setv,slip:slipx,rep,mkSup,mkWk,svdate,svq,svpick,svsave,wm,svday,svlive,svnext,svcancel,flt,dclose,thm,setth,setff,uplogo,rmlogo,setco});
 </script></body></html>
