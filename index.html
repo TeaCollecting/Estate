@@ -112,7 +112,7 @@ if(!DEMO)onAuthStateChanged(auth,async u=>{
  $('login').classList.add('hide');$('app').classList.remove('hide');$('lo').classList.remove('hide');
  document.body.className=ROLE=='admin'?'':ROLE=='supervisor'?'rs':'rw';
  unS=onSnapshot(doc(db,'settings','main'),sn=>{
-  if(sn.exists()){S.set=sn.data().set;S.w=sn.data().w}else if(ROLE=='admin'){S.w=SEED;saveSet()}
+  if(sn.exists()){S.set=sn.data().set;S.w=sn.data().w}else{S.w=[]}
   paint()});
  subE()});
 let pend=false;
