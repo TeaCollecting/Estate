@@ -74,7 +74,7 @@ const DU={'admin@demo.com':{role:'admin'},'sup@demo.com':{role:'supervisor'},'14
 const dmerge=(a,b)=>{for(const k in b){if(b[k]&&typeof b[k]=='object'&&!Array.isArray(b[k])){a[k]=a[k]||{};dmerge(a[k],b[k])}else a[k]=b[k]}return a};
 if(DEMO)$('le').innerHTML='<span style="color:var(--mut)">DEMO ගිණුම් (මුරපදය: 123456)<br>Admin: admin@demo.com<br>අධීක්ෂක: sup@demo.com<br>සේවක: 140</span>';
 const MN=["ජනවාරි","පෙබරවාරි","මාර්තු","අප්‍රේල්","මැයි","ජූනි","ජූලි","අගෝස්තු","සැප්තැම්බර්","ඔක්තෝබර්","නොවැම්බර්","දෙසැම්බර්"];
-const SEED=[[145,'වයි. ඩී. හිමලසේන යමසිංහ','P'],[165,'සේවක 165','P'],[194,'සේවක 194','P'],[195,'සේවක 195','P'],[196,'සේවක 196','P'],[197,'සේවක 197','P'],[198,'සේවක 198','P'],[140,'කරුණාවතී','C'],[162,'සේවක 162','C'],[166,'සේවක 166','C'],[167,'සේවක 167','C'],[173,'සේවක 173','C'],[174,'සේවක 174','C']].map(a=>({no:a[0],name:a[1],t:a[2]}));
+const SEED=[];
 let S={set:{rate:1400,dayAllow:0,mAllow:200,limit:18,epf:8,kg:60},w:[]},M={},ROLE=null,WNO=null,T='P',SW=null,Q='',MSG='',unS=null,unE=null;
 const yr=$('yr'),mo=$('mo');
 for(let y=2025;y<=2032;y++)yr.add(new Option(y,y));
@@ -183,7 +183,7 @@ function rep(t){const m=$('slipc');m.className='rep';$('modal').style.display='f
 function svdate(v){if(!v)return;DD=v;yr.value=v.slice(0,4);mo.value=+v.slice(5,7)-1;subE();svrender()}
 function svrender(){const el=ROLE=='admin'?$('main'):$('sv'),wrap=ROLE=='admin'?'':"style='max-width:460px;margin:10px auto'";
  el.innerHTML=`<div class=card ${wrap}><p><b>දෛනික කිලෝ සටහන</b> <input type=date value='${DD}' onchange='svdate(this.value)'></p><input id=sq placeholder='සේවක අංකය හෝ නමේ මුල් අකුරු...' oninput='svq(this.value)' value='${Q}' style='width:100%;padding:12px;font-size:16px'><div id=sres></div><div id=sent></div></div>`;svres();svent()}
-function svres(){const e=$('sres');if(!e)return;const ws=S.w.filter(x=>x.t=='C').sort((a,b)=>a.no-b.no),d=+DD.slice(8),q=Q.trim();
+function svres(){const e=$('sres');if(!e)return;const ws=[...S.w].sort((a,b)=>a.no-b.no),d=+DD.slice(8),q=Q.trim();
  const l=q?ws.filter(w=>String(w.no).startsWith(q)||w.name.split(/\s+/).some(p=>p.startsWith(q))):ws;
  e.innerHTML=(q?'':'<small style="color:var(--mut)">සියලු සේවකයින් (✓ = අද සටහන් කළා)</small>')+(l.map(w=>{const v=(rec(w.no).dk||{})[d];return `<div class=card style='margin:6px 0;padding:12px;cursor:pointer;${w.no==SW?"border:2px solid var(--g)":""}' onclick='svpick(${w.no})'><b>${w.no}</b> ${w.name}<span style='float:right'>${v?'<span style="color:var(--g)">✓ '+f(v)+' kg</span>':'<span style="color:var(--mut)">—</span>'}</span></div>`}).join('')||(q?'<p>සේවකයෙකු හමු නොවීය</p>':''))}
 function svq(v){Q=v;SW=null;MSG='';svres();svent()}
