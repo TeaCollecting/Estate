@@ -64,7 +64,7 @@ import {initializeFirestore,persistentLocalCache,persistentMultipleTabManager,do
 const firebaseConfig={apiKey:"AIzaSyC48X7N712FXSGMTG_hFE0U06ihmmhtKbI",authDomain:"estate-payrole.firebaseapp.com",projectId:"estate-payrole",storageBucket:"estate-payrole.firebasestorage.app",messagingSenderId:"257315549244",appId:"1:257315549244:web:37c5b3f728169d9a9e1339"};
 /* ================================================ */
 
-const DEMO=firebaseConfig.apiKey==="YOUR_API_KEY";
+const DEMO=firebaseConfig.apiKey==="AIzaSyC48X7N712FXSGMTG_hFE0U06ihmmhtKbI";
 const app=DEMO?null:initializeApp(firebaseConfig),auth=DEMO?null:getAuth(app),db=DEMO?null:initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
 const $=id=>document.getElementById(id);
 /* ---- DEMO mode (Firebase config නොදැමූ විට): dummy accounts, දත්ත මෙම browser එකේ පමණක් ---- */
