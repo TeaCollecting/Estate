@@ -101,7 +101,7 @@ function calcC(r){const k=ksum(r)||+r.k||0,a=+r.a||0,fa=+r.fa||0,tot=k*S.set.kg,
 /* ---- auth ---- */
 function login(){let e=$('em').value.trim();if(e&&!e.includes('@'))e+='@estate.local';
  if(DEMO){if($('pw').value==='123456'&&DU[e])demoStart(DU[e]);else $('le').textContent='පිවිසීම අසාර්ථකයි';return}
- signInWithEmailAndPassword(auth,e,$('pw').value).catch(()=>$('le').textContent='පිවිසීම අසාර්ථකයි')}
+ signInWithEmailAndPassword(auth,e,$('pw').value).catch(e=>$('le').textContent='පිවිසීම අසාර්ථකයි'+' ('+(e.code||e.message)+')')}
 function logout(){if(DEMO){ROLE=null;M={};SW=null;Q='';$('login').classList.remove('hide');$('app').classList.add('hide');$('lo').classList.add('hide');document.body.className='';return}signOut(auth)}
 if(!DEMO)onAuthStateChanged(auth,async u=>{
  if(unS){unS();unS=null}if(unE){unE();unE=null}
