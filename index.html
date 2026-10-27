@@ -1,206 +1,21 @@
-<!DOCTYPE html>
-<html lang="si"><head><meta charset="utf-8"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#2e7d32">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>වතු වැටුප් පද්ධතිය</title>
-<style>
-:root{--bg:#f4f7f2;--card:#fff;--tx:#1b2a1b;--mut:#5b6b5b;--g:#2e7d32;--hd:#1f6b4a;--bd:#cfdccf;--inp:#fff}
-@media (prefers-color-scheme:dark){:root{--bg:#121712;--card:#1b231b;--tx:#e6efe6;--mut:#9db09d;--g:#66bb6a;--hd:#1d5c40;--bd:#2f3f2f;--inp:#222c22}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.4 system-ui,"Iskoola Pota","Noto Sans Sinhala",sans-serif;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
-header{background:var(--g);color:#fff;padding:10px 12px;font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:center}
-header button{background:#0003;padding:4px 10px}
-.bar{display:flex;flex-wrap:wrap;gap:8px;padding:10px;align-items:center}
-select,input,button,textarea{font:inherit;color:var(--tx);background:var(--inp);border:1px solid var(--bd);border-radius:6px;padding:6px 8px}
-button{cursor:pointer;background:var(--g);color:#fff;border:0}
-button.o{background:var(--inp);color:var(--tx);border:1px solid var(--bd)}
-.tabs{display:flex;gap:4px;padding:0 10px;flex-wrap:wrap}
-.tabs button{background:var(--inp);color:var(--tx);border:1px solid var(--bd);border-radius:6px 6px 0 0}
-.tabs button.on{background:var(--hd);color:#fff}
-.card{background:var(--card);margin:0 10px 12px;border:1px solid var(--bd);padding:8px;border-radius:6px}
-.w{overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:760px}
-th{background:var(--hd);color:#fff;font-weight:600;padding:6px 4px;font-size:12px}
-td{border:1px solid var(--bd);padding:3px 4px;text-align:right}
-td input{width:78px;text-align:right;padding:3px}
-td.n{text-align:left}td input.nm{width:150px;text-align:left}
-tfoot td{font-weight:700;background:var(--bg)}
-.neg{color:#d32f2f}
-.set{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.set label{display:block;font-size:12px;color:var(--mut)}.set input{width:100%}
-.slip{max-width:380px;margin:auto;padding:16px;background:#fff;color:#000;border:1px solid #999}
-.slip h3{text-align:center;margin:0 0 8px}.slip div.r{display:flex;justify-content:space-between;padding:2px 0}
-.slip hr{border:0;border-top:1px solid #000}
-#modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:12px;overflow:auto}
-.rep{background:#fff;color:#000;padding:12px;max-width:1100px;overflow-x:auto}
-.rep h3{text-align:center;margin:4px 0 10px;font-size:15px;font-weight:600}
-.rep table{min-width:0;font-size:12px}.rep th{background:#fff;color:#000;border:1px solid #000}.rep td{border:1px solid #000;color:#000;padding:5px 4px}
-.ps{max-width:380px;margin:0 auto 20px;padding:16px;font-size:14px;page-break-after:always;color:#000;background:#fff}
-.ps h3{text-align:center;margin:0 0 10px}.ps .r{display:flex;justify-content:space-between;margin-bottom:4px}
-.rep .pt{min-width:0;width:100%;margin-top:8px}.rep .pt td{border:0;padding:3px 2px;text-align:left}
-.hide{display:none!important}
-.rs .bar,.rs .tabs,.rs #adm,.rw .bar,.rw .tabs,.rw #adm{display:none}
-@media print{body>*:not(#modal){display:none!important}#modal{position:static;background:none;display:block!important}#modal button{display:none}}
-</style></head><body>
-<header><span>වතු වැටුප් පද්ධතිය</span><small id="sy"></small><button id="lo" class="hide" onclick="logout()">පිටවන්න</button></header>
-<div id="login" class="card" style="max-width:360px;margin:20px auto;padding:16px">
-<h3>පිවිසුම</h3>
-<p><input id="em" placeholder="Email හෝ සේවක අංකය" style="width:100%"></p>
-<p><input id="pw" type="password" placeholder="මුරපදය / PIN" style="width:100%"></p>
-<button onclick="login()">පිවිසෙන්න</button><p id="le" class="neg"></p></div>
-<div id="app" class="hide">
-<div class="bar"><select id="yr"></select><select id="mo"></select><button class="o" onclick="addW()">+ සේවකයෙකු</button><button class="o" onclick="window.print()">මුද්‍රණය</button></div>
-<div class="tabs"><button id="tP" onclick="tab('P')">ස්ථිර සේවක</button><button id="tC" onclick="tab('C')">අනියම් සේවක</button><button id="tV" onclick="tab('V')">දෛනික කිලෝ</button><button id="tR" onclick="tab('R')">වාර්තා</button><button id="tS" onclick="tab('S')">සැකසුම්</button></div>
-<div class="card" id="adm"><div id="main" class="w"></div></div>
-<div id="sv"></div><div id="wk"></div>
-</div>
-<style id="pg"></style><div id="modal" onclick="if(event.target==this)this.style.display='none'"><div><div class="slip" id="slipc"></div><p style="text-align:center"><button onclick="window.print()">මුද්‍රණය</button> <button class="o" onclick="document.getElementById('modal').style.display='none'">වසන්න</button></p></div></div>
-
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {initializeFirestore,persistentLocalCache,persistentMultipleTabManager,doc,getDoc,setDoc,onSnapshot,collection,query,where,deleteDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ===== මෙතැනට ඔබේ Firebase config එක දමන්න ===== */
-const firebaseConfig={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT.firebaseapp.com",projectId:"YOUR_PROJECT",appId:"YOUR_APP_ID"};
+/* ===== ඔබේ Firebase config එක මෙහි ඇතුළත් කර ඇත ===== */
+const firebaseConfig = {
+  apiKey: "AIzaSyC48X7N712FXSGMTG_hFE0U06ihmmhtKbI",
+  authDomain: "estate-payrole.firebaseapp.com",
+  projectId: "estate-payrole",
+  storageBucket: "estate-payrole.firebasestorage.app",
+  messagingSenderId: "257315549244",
+  appId: "1:257315549244:web:37c5b3f728169d9a9e1339",
+  measurementId: "G-TZ2GZ0JC3V"
+};
 /* ================================================ */
 
-const DEMO=firebaseConfig.apiKey==="YOUR_API_KEY";
-const app=DEMO?null:initializeApp(firebaseConfig),auth=DEMO?null:getAuth(app),db=DEMO?null:initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
+const DEMO = false; // දැන් DEMO mode එක ක්‍රියාත්මක නොවේ (Firebase හරහා ක්‍රියාත්මක වේ)
+const app = initializeApp(firebaseConfig), auth = getAuth(app), db = initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
 const $=id=>document.getElementById(id);
-/* ---- DEMO mode (Firebase config නොදැමූ විට): dummy accounts, දත්ත මෙම browser එකේ පමණක් ---- */
-const DK='estate_demo_v1';let DB=DEMO?JSON.parse(localStorage.getItem(DK)||'{"settings":null,"entries":{}}'):null;
-const dsave=()=>localStorage.setItem(DK,JSON.stringify(DB));
-const DU={'admin@demo.com':{role:'admin'},'sup@demo.com':{role:'supervisor'},'140@estate.local':{role:'worker',wno:140}};
-const dmerge=(a,b)=>{for(const k in b){if(b[k]&&typeof b[k]=='object'&&!Array.isArray(b[k])){a[k]=a[k]||{};dmerge(a[k],b[k])}else a[k]=b[k]}return a};
-if(DEMO)$('le').innerHTML='<span style="color:var(--mut)">DEMO ගිණුම් (මුරපදය: 123456)<br>Admin: admin@demo.com<br>අධීක්ෂක: sup@demo.com<br>සේවක: 140</span>';
-const MN=["ජනවාරි","පෙබරවාරි","මාර්තු","අප්‍රේල්","මැයි","ජූනි","ජූලි","අගෝස්තු","සැප්තැම්බර්","ඔක්තෝබර්","නොවැම්බර්","දෙසැම්බර්"];
-const SEED=[[145,'වයි. ඩී. හිමලසේන යමසිංහ','P'],[165,'සේවක 165','P'],[194,'සේවක 194','P'],[195,'සේවක 195','P'],[196,'සේවක 196','P'],[197,'සේවක 197','P'],[198,'සේවක 198','P'],[140,'කරුණාවතී','C'],[162,'සේවක 162','C'],[166,'සේවක 166','C'],[167,'සේවක 167','C'],[173,'සේවක 173','C'],[174,'සේවක 174','C']].map(a=>({no:a[0],name:a[1],t:a[2]}));
-let S={set:{rate:1400,dayAllow:0,mAllow:200,limit:18,epf:8,kg:60},w:[]},M={},ROLE=null,WNO=null,T='P',SW=null,Q='',MSG='',unS=null,unE=null;
-const yr=$('yr'),mo=$('mo');
-for(let y=2025;y<=2032;y++)yr.add(new Option(y,y));
-MN.forEach((n,i)=>mo.add(new Option(n,i)));
-const now=new Date(),p2=n=>String(n).padStart(2,'0');
-let DD=now.getFullYear()+'-'+p2(now.getMonth()+1)+'-'+p2(now.getDate());
-yr.value=now.getFullYear();mo.value=now.getMonth();
-yr.onchange=mo.onchange=()=>{subE();render()};
-const mk=()=>yr.value+'-'+mo.value;
-const f=n=>Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-const rec=no=>M[no]||{};
-function demoLoad(){M={};for(const id in DB.entries){const e=DB.entries[id];if(e.key==mk()&&(ROLE!='worker'||e.no==WNO))M[e.no]=e}paint()}
-const wr=(no,o)=>{if(DEMO){const id=mk()+'_'+no;DB.entries[id]=dmerge(DB.entries[id]||{key:mk(),no:+no},o);dsave();demoLoad();return Promise.resolve()}return setDoc(doc(db,'entries',mk()+'_'+no),{key:mk(),no:+no,...o},{merge:true})};
-const saveSet=()=>{if(DEMO){DB.settings={set:S.set,w:S.w};dsave();paint();return}return setDoc(doc(db,'settings','main'),{set:S.set,w:S.w})};
-function demoStart(u){ROLE=u.role;WNO=u.wno;$('login').classList.add('hide');$('app').classList.remove('hide');$('lo').classList.remove('hide');document.body.className=ROLE=='admin'?'':ROLE=='supervisor'?'rs':'rw';
- if(!DB.settings){S.w=SEED;DB.settings={set:S.set,w:S.w};const k=mk(),E=DB.entries;
-  [[145,{d:21,a:10000}],[165,{d:15,a:6000}],[196,{d:19,a:7500}],[140,{a:5500,dk:{1:120,2:115,3:117},dl:{1:[40,40,40],2:[38,39,38],3:[39,39,39]}}],[162,{a:4000,dk:{1:130,2:125}}]].forEach(a=>E[k+'_'+a[0]]={key:k,no:a[0],...a[1]});dsave()}
- else{S.set=DB.settings.set;S.w=DB.settings.w}
- subE()}
-const ksum=r=>r.dk?Object.values(r.dk).reduce((a,b)=>a+(+b||0),0):0;
-function calcP(r){const s=S.set,d=+r.d||0,a=+r.a||0,fa=+r.fa||0,basic=d*s.rate,da=d*s.dayAllow,ma=d>=s.limit?d*s.mAllow:0,tot=basic+da+ma,epf=Math.round(basic*s.epf)/100,ded=a+fa+epf;return{d,basic,da,ma,tot,a,fa,epf,ded,net:tot-ded}}
-function calcC(r){const k=ksum(r)||+r.k||0,a=+r.a||0,fa=+r.fa||0,tot=k*S.set.kg,ded=a+fa;return{k,tot,a,fa,ded,net:tot-ded}}
-
-/* ---- auth ---- */
-function login(){let e=$('em').value.trim();if(e&&!e.includes('@'))e+='@estate.local';
- if(DEMO){if($('pw').value==='123456'&&DU[e])demoStart(DU[e]);else $('le').textContent='පිවිසීම අසාර්ථකයි';return}
- signInWithEmailAndPassword(auth,e,$('pw').value).catch(()=>$('le').textContent='පිවිසීම අසාර්ථකයි')}
-function logout(){if(DEMO){ROLE=null;M={};SW=null;Q='';$('login').classList.remove('hide');$('app').classList.add('hide');$('lo').classList.add('hide');document.body.className='';return}signOut(auth)}
-if(!DEMO)onAuthStateChanged(auth,async u=>{
- if(unS){unS();unS=null}if(unE){unE();unE=null}
- if(!u){$('login').classList.remove('hide');$('app').classList.add('hide');$('lo').classList.add('hide');document.body.className='';return}
- let s;try{s=await getDoc(doc(db,'staff',u.uid));if(s.exists())localStorage.setItem('st_'+u.uid,JSON.stringify(s.data()))}catch(e){const c=localStorage.getItem('st_'+u.uid);s={exists:()=>!!c,data:()=>JSON.parse(c)}}
- if(!s.exists()){$('le').textContent='ප්‍රවේශය නැත';signOut(auth);return}
- ROLE=s.data().role;WNO=s.data().wno;
- $('login').classList.add('hide');$('app').classList.remove('hide');$('lo').classList.remove('hide');
- document.body.className=ROLE=='admin'?'':ROLE=='supervisor'?'rs':'rw';
- unS=onSnapshot(doc(db,'settings','main'),sn=>{
-  if(sn.exists()){S.set=sn.data().set;S.w=sn.data().w}else if(ROLE=='admin'){S.w=SEED;saveSet()}
-  paint()});
- subE()});
-let pend=false;
-function stat(){const e=$('sy');if(e)e.textContent=(navigator.onLine?'🟢 Online':'🔴 Offline')+(pend?' • යැවීමට ඉතිරි දත්ත ඇත':'')}
-addEventListener('online',stat);addEventListener('offline',stat);
-function subE(){if(!ROLE)return;if(DEMO){demoLoad();return}if(unE)unE();
- let q=query(collection(db,'entries'),where('key','==',mk()));
- if(ROLE=='worker')q=query(collection(db,'entries'),where('key','==',mk()),where('no','==',+WNO));
- unE=onSnapshot(q,{includeMetadataChanges:true},sn=>{M={};sn.forEach(d=>M[d.data().no]=d.data());pend=sn.metadata.hasPendingWrites;stat();paint()})}
-function paint(){
- if(ROLE=='admin'){if(T=='V'){svres()}else if(!(document.activeElement&&document.activeElement.tagName=='INPUT'&&document.activeElement.closest('#main')))render()}
- else if(ROLE=='supervisor'){if(!$('sq'))svrender();else svres()}
- else wrender()}
-
-/* ---- admin ---- */
-function tab(t){T=t;render()}
-function up(no,k,v){wr(no,{[k]:v===''?0:parseFloat(v)})}
-function addW(){if(T=='S'||T=='V'&&0)return;const no=prompt('අංකය');if(!no)return;const t=T=='P'?'P':'C';S.w.push({no:+no,name:prompt('නම')||'',t});saveSet()}
-function del(no){if(confirm('මකන්නද?')){S.w=S.w.filter(x=>x.no!=no);saveSet()}}
-function nm(no,v){S.w.find(x=>x.no==no).name=v;saveSet()}
-function setv(k,v){S.set[k]=+v;saveSet()}
-const inp=(no,k,v)=>`<input type=number step=any value="${v||''}" onchange="up(${no},'${k}',this.value)">`;
-async function createAcct(email,pw,data){if(DEMO){alert('Demo mode එකේ ගිණුම් සාදන්න බැහැ');return}try{const sa=initializeApp(firebaseConfig,'sec'+Date.now()),sau=getAuth(sa),c=await createUserWithEmailAndPassword(sau,email,pw);await setDoc(doc(db,'staff',c.user.uid),data);await signOut(sau);alert('ගිණුම සාදන ලදී')}catch(e){alert(e.message)}}
-function mkSup(){createAcct($('se').value.trim(),$('sp').value,{role:'supervisor'})}
-function mkWk(no){createAcct(no+'@estate.local',$('pin'+no).value,{role:'worker',wno:no})}
-function render(){
- ['P','C','V','R','S'].forEach(x=>$('t'+x).className=x==T?'on':'');
- const el=$('main');
- if(T=='V'){svrender();return}
- if(T=='R'){el.innerHTML=`<h4 style="margin:4px 0">${yr.value} ${MN[mo.value]} මස වාර්තා</h4><p><button onclick="rep('P')">ස්ථිර සේවක වැටුප් ගෙවීම් ලේඛනය</button></p><p><button onclick="rep('C')">අනියම් සේවක වැටුප් ගෙවීම් ලේඛනය</button></p><p><button onclick="rep('A')">සියලු සේවකයින්ගේ වැටුප් විස්තර</button></p>`;return}
- if(T=='S'){const s=S.set,L=[['rate','දෛනික වැටුප (රු.)'],['dayAllow','දිනකට දීමනාව'],['mAllow','මාසික දීමනාව (දිනකට)'],['limit','දින සීමාව'],['epf','සේ.අ.අ %'],['kg','කිලෝවකට මුදල (රු.)']];
-  el.innerHTML='<div class=set>'+L.map(a=>`<div><label>${a[1]}</label><input type=number step=any value="${s[a[0]]}" onchange="setv('${a[0]}',this.value)"></div>`).join('')+'</div>'
-  +'<h4>අධීක්ෂක ගිණුමක් සාදන්න</h4><div class=set><input id=se placeholder="Email"><input id=sp type=password placeholder="මුරපදය (අකුරු 6+)"><button onclick="mkSup()">සාදන්න</button></div>'
-  +'<h4>සේවක ගිණුම් (අංකය + PIN අංක 6ක්)</h4><div class=set>'+S.w.filter(x=>x.t=='C').map(x=>`<div><label>${x.no} ${x.name}</label><input id=pin${x.no} placeholder="PIN"><button onclick="mkWk(${x.no})">සාදන්න</button></div>`).join('')+'</div>';return}
- const ws=S.w.filter(x=>x.t==T).sort((a,b)=>a.no-b.no);let h,tot={};const add=(k,v)=>tot[k]=(tot[k]||0)+v;
- const nmI=x=>`<input class=nm value="${x.name}" onchange="nm(${x.no},this.value)">`,act=x=>`<button class=o onclick="slip(${x.no})">🧾</button> <button class=o onclick="del(${x.no})">✕</button>`;
- if(T=='P'){h='<table><thead><tr><th>අංකය<th>නම<th>දින<th>මූලික<th>මාසික දීමනා<th>මුළු වැටුප<th>අත්තිකාරම්<th>උත්සව අත්.<th>'+S.set.epf+'%<th>මුළු අඩු<th>ශුද්ධ වැටුප<th></tr></thead><tbody>';
-  ws.forEach(x=>{const r=rec(x.no),c=calcP(r);['basic','ma','tot','a','fa','epf','ded','net'].forEach(k=>add(k,c[k]));
-  h+=`<tr><td class=n>${x.no}<td class=n>${nmI(x)}<td>${inp(x.no,'d',r.d)}<td>${f(c.basic)}<td>${f(c.ma)}<td>${f(c.tot)}<td>${inp(x.no,'a',r.a)}<td>${inp(x.no,'fa',r.fa)}<td>${f(c.epf)}<td>${f(c.ded)}<td class="${c.net<0?'neg':''}"><b>${f(c.net)}</b><td>${act(x)}</tr>`});
-  h+=`</tbody><tfoot><tr><td colspan=3>එකතුව<td>${f(tot.basic||0)}<td>${f(tot.ma||0)}<td>${f(tot.tot||0)}<td>${f(tot.a||0)}<td>${f(tot.fa||0)}<td>${f(tot.epf||0)}<td>${f(tot.ded||0)}<td>${f(tot.net||0)}<td></tr></tfoot></table>`}
- else{h='<table><thead><tr><th>අංකය<th>නම<th>කිලෝ ගණන<th>මුළු වැටුප<th>අත්තිකාරම්<th>උත්සව අත්.<th>මුළු අඩුකිරීම්<th>ශුද්ධ වැටුප<th></tr></thead><tbody>';
-  ws.forEach(x=>{const r=rec(x.no),c=calcC(r);['k','tot','a','fa','ded','net'].forEach(k=>add(k,c[k]));
-  h+=`<tr><td class=n>${x.no}<td class=n>${nmI(x)}<td>${ksum(r)?'<b>'+f(ksum(r))+'</b>':inp(x.no,'k',r.k)}<td>${f(c.tot)}<td>${inp(x.no,'a',r.a)}<td>${inp(x.no,'fa',r.fa)}<td>${f(c.ded)}<td class="${c.net<0?'neg':''}"><b>${f(c.net)}</b><td>${act(x)}</tr>`});
-  h+=`</tbody><tfoot><tr><td colspan=2>එකතුව<td>${f(tot.k||0)}<td>${f(tot.tot||0)}<td>${f(tot.a||0)}<td>${f(tot.fa||0)}<td>${f(tot.ded||0)}<td>${f(tot.net||0)}<td></tr></tfoot></table>`}
- el.innerHTML='<h4 style="margin:4px 0">'+yr.value+' '+MN[mo.value]+' මස '+(T=='P'?'ස්ථිර':'අනියම්')+' සේවක වැටුප් ගෙවීම් ලේඛනය</h4>'+h}
-function slip(no){const x=S.w.find(a=>a.no==no),r=rec(no),R=(a,b,bold)=>`<div class=r><span>${a}</span><b style="font-weight:${bold?700:400}">${b}</b></div>`;let h=`<h3>වැටුප් විස්තරය</h3>${R('අංකය',no)}${R('නම',x.name)}${R('මාසය',yr.value+' '+MN[mo.value])}<hr>`;
- if(x.t=='P'){const c=calcP(r);h+=R('දින ගණන',c.d)+R('මූලික වැටුප',f(c.basic))+R('දිනකට ගෙවන දීමනාව',f(c.da))+R('මාසික දීමනා එකතුව',f(c.ma))+R('මුළු වැටුප',f(c.tot),1)+'<hr>'+R('අත්තිකාරම්',f(c.a))+R('උත්සව අත්තිකාරම්',f(c.fa))+R('සේ.අ.අ '+S.set.epf+'%',f(c.epf))+R('අඩු කිරීම් එකතුව',f(c.ded),1)+'<hr>'+R('ශුද්ධ වැටුප',f(c.net),1)}
- else{const c=calcC(r);h+=R('කිලෝ ගණන',c.k)+R('මුළු වැටුප',f(c.tot),1)+'<hr>'+R('අත්තිකාරම්',f(c.a))+R('උත්සව අත්තිකාරම්',f(c.fa))+R('අඩු කිරීම් එකතුව',f(c.ded),1)+'<hr>'+R('ශුද්ධ වැටුප',f(c.net),1)}
- $('slipc').innerHTML=h;$('modal').style.display='flex'}
-
-function slipBody(no){const x=S.w.find(a=>a.no==no),r=rec(no),P=x.t=='P',c=P?calcP(r):calcC(r);
- const R=(a,b,t)=>`<tr><td>${a}<td style='text-align:right;${t?"border-top:1px solid #000;border-bottom:3px double #000;font-weight:700":""}'>${b}</tr>`,H=a=>`<tr><td colspan=2 style='padding-top:10px'><u>${a}</u></tr>`,fa=c.fa?f(c.fa):'-';
- let h=`<div class=ps><h3>වැටුප් විස්තරය</h3><div class=r><span>අංකය <b>${no}</b></span><span>${yr.value} ${MN[mo.value]}</span></div><div>නම <b>${x.name}</b></div><table class=pt>`;
- if(P)h+=R('දින ගණන',c.d.toFixed(1))+R('මූලික වැටුප',f(c.basic))+R('දිනකට ගෙවන දීමනාව',f(c.da))+R('මාසික දීමනා එකතුව',f(c.ma))+R('මුළු වැටුප',f(c.tot),1)+H('අඩු කිරීම්')+R('අත්තිකාරම්',f(c.a))+R('උත්සව අත්තිකාරම්',fa)+R('සේ. අ. අ. '+S.set.epf+'%',f(c.epf))+R('අඩු කිරීම් එකතුව',f(c.ded),1)+H('තේ දළු')+R('ප්‍රමාණය','-')+R('මුදල','-')+R('ශුද්ධ වැටුප',f(c.net),1);
- else h+=R('කිලෝ ගණන',f(c.k))+R('මුළු වැටුප',f(c.tot),1)+H('අඩු කිරීම්')+R('අත්තිකාරම්',f(c.a))+R('උත්සව අත්තිකාරම්',fa)+R('අඩු කිරීම් එකතුව',f(c.ded),1)+R('ශුද්ධ වැටුප',f(c.net),1);
- return h+'</table></div>'}
-function slipx(no){$('slipc').className='rep';$('pg').textContent='@page{size:A4 portrait}';$('slipc').innerHTML=slipBody(no);$('modal').style.display='flex'}
-function rep(t){const m=$('slipc');m.className='rep';$('modal').style.display='flex';
- const by=(a,b)=>a.no-b.no;
- if(t=='A'){$('pg').textContent='@page{size:A4 portrait}';m.innerHTML=[...S.w.filter(x=>x.t=='P').sort(by),...S.w.filter(x=>x.t=='C').sort(by)].map(x=>slipBody(x.no)).join('');return}
- $('pg').textContent='@page{size:A4 landscape}';
- const P=t=='P',ws=S.w.filter(x=>x.t==t).sort(by),hd=P?['අංකය','නම','දින ගණන','මූලික වැටුප','දිනකට ගෙවන දීමනාව','මාසික දීමනා','මුළු වැටුප','අත්තිකාරම්','උත්සව අත්තිකාරම්',S.set.epf+'%','මුළු අඩුකිරීම්','ශුද්ධ වැටුප','අත්සන']:['අංකය','නම','කිලෝ ගණන','මුළු වැටුප','අත්තිකාරම්','උත්සව අත්තිකාරම්','මුළු අඩුකිරීම්','ශුද්ධ වැටුප','අත්සන'];
- const fmt=(i,v)=>P&&i==0?v.toFixed(1):(!P&&i==3&&!v)?'-':f(v),tot=[];
- const rows=ws.map(x=>{const r=rec(x.no),c=P?calcP(r):calcC(r),n=P?[c.d,c.basic,c.da,c.ma,c.tot,c.a,c.fa,c.epf,c.ded,c.net]:[c.k,c.tot,c.a,c.fa,c.ded,c.net];n.forEach((v,i)=>tot[i]=(tot[i]||0)+v);
-  return `<tr><td>${x.no}<td style='text-align:left'>${x.name}${n.map((v,i)=>`<td>${fmt(i,v)}`).join('')}<td style='width:90px'></tr>`}).join('');
- m.innerHTML=`<h3>${yr.value} ${MN[mo.value]} මස<br>${P?'ස්ථිර':'අනියම්'} සේවක වැටුප් ගෙවීම් ලේඛනය</h3><table><thead><tr>${hd.map(h=>`<th>${h}`).join('')}</tr></thead><tbody>${rows}<tr style='font-weight:700'><td colspan=2>එකතුව${tot.map((v,i)=>`<td>${fmt(i,v)}`).join('')}<td></tr></tbody></table>`}
-/* ---- supervisor (daily kg cards) ---- */
-function svdate(v){if(!v)return;DD=v;yr.value=v.slice(0,4);mo.value=+v.slice(5,7)-1;subE();svrender()}
-function svrender(){const el=ROLE=='admin'?$('main'):$('sv'),wrap=ROLE=='admin'?'':"style='max-width:460px;margin:10px auto'";
- el.innerHTML=`<div class=card ${wrap}><p><b>දෛනික කිලෝ සටහන</b> <input type=date value='${DD}' onchange='svdate(this.value)'></p><input id=sq placeholder='සේවක අංකය හෝ නමේ මුල් අකුරු...' oninput='svq(this.value)' value='${Q}' style='width:100%;padding:12px;font-size:16px'><div id=sres></div><div id=sent></div></div>`;svres();svent()}
-function svres(){const e=$('sres');if(!e)return;const ws=S.w.filter(x=>x.t=='C').sort((a,b)=>a.no-b.no),d=+DD.slice(8),q=Q.trim();
- const l=q?ws.filter(w=>String(w.no).startsWith(q)||w.name.split(/\s+/).some(p=>p.startsWith(q))):ws;
- e.innerHTML=(q?'':'<small style="color:var(--mut)">සියලු සේවකයින් (✓ = අද සටහන් කළා)</small>')+(l.map(w=>{const v=(rec(w.no).dk||{})[d];return `<div class=card style='margin:6px 0;padding:12px;cursor:pointer;${w.no==SW?"border:2px solid var(--g)":""}' onclick='svpick(${w.no})'><b>${w.no}</b> ${w.name}<span style='float:right'>${v?'<span style="color:var(--g)">✓ '+f(v)+' kg</span>':'<span style="color:var(--mut)">—</span>'}</span></div>`}).join('')||(q?'<p>සේවකයෙකු හමු නොවීය</p>':''))}
-function svq(v){Q=v;SW=null;MSG='';svres();svent()}
-function svpick(n){SW=n;svres();svent();setTimeout(()=>{const k=[...document.querySelectorAll('.sk')],i=k.find(x=>x.value==='')||k[0];i&&i.focus()})}
-function svent(){const e=$('sent');if(!e)return;if(SW==null){e.innerHTML=MSG?`<p style='color:var(--g)'><b>${MSG}</b></p>`:'';return}
- const x=S.w.find(a=>a.no==SW),r=rec(SW),d=+DD.slice(8),dl=(r.dl||{})[d]||[];
- e.innerHTML=`<div class=card style='margin:8px 0;padding:12px'><b>${x.no} - ${x.name}</b>${[0,1,2].map(i=>`<p>${i+1} වන වරට: <input type=number step=any inputmode=decimal class=sk value='${dl[i]??''}' style='width:120px;padding:10px;font-size:16px'> kg</p>`).join('')}<p>මාසික එකතුව: <b>${f(ksum(r))}</b> kg</p><button onclick='svsave()' style='padding:12px 20px'>සුරකින්න</button></div>`}
-async function svsave(){const x=S.w.find(a=>a.no==SW),d=+DD.slice(8),a=[...document.querySelectorAll('.sk')].map(i=>i.value===''?null:parseFloat(i.value)),s=a.reduce((p,q)=>p+(+q||0),0);
- try{wr(SW,{dl:{[d]:a},dk:{[d]:s}}).catch(e=>alert(e.code));MSG='✓ '+x.name+' සුරැකිණි ('+f(s)+' kg)'+(navigator.onLine?'':' • offline: සම්බන්ධ වූ විට යවයි')}catch(e){MSG='සුරැකීම අසාර්ථකයි: '+e.code}
- SW=null;Q='';const q=$('sq');q.value='';svres();svent();q.focus()}
-
-/* ---- worker (read-only) ---- */
-function wm(v){if(!v)return;yr.value=v.slice(0,4);mo.value=+v.slice(5,7)-1;subE()}
-function wrender(){const x=S.w.find(a=>a.no==WNO)||{name:'',no:WNO},r=rec(WNO),dk=r.dk||{},c=calcC(r),pm=yr.value+'-'+p2(+mo.value+1);
- $('wk').innerHTML=`<div class=card style='max-width:460px;margin:10px auto'><b>${x.name}</b> (අංකය ${WNO})<p>මාසය: <input type=month value='${pm}' onchange='wm(this.value)'></p><table style='min-width:0'><thead><tr><th>දිනය<th>කිලෝ</tr></thead><tbody>${Object.keys(dk).map(Number).filter(d=>dk[d]>0).sort((a,b)=>a-b).map(d=>`<tr><td class=n>${d}<td>${f(dk[d])}</tr>`).join('')}</tbody><tfoot><tr><td>එකතුව<td>${f(c.k)}</tr></tfoot></table><p>මුළු වැටුප: <b>${f(c.tot)}</b><br>අත්තිකාරම් සහ අඩු කිරීම්: ${f(c.ded)}<br>ශුද්ධ වැටුප: <b>${f(c.net)}</b></p></div>`}
-
-stat();
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-Object.assign(window,{login,logout,tab,up,addW,del,nm,setv,slip:slipx,rep,mkSup,mkWk,svdate,svq,svpick,svsave,wm});
-</script></body></html>
+// ඉතිරි කේතය එලෙසම පවතී...
